@@ -1,0 +1,2 @@
+1- é um motor de execução javascript desenvolvido inicialmente pela google, sua principal vantagem é executar código javascript além do navegador, tornando javascript utilizável além do frontend no backend, significando que quem manipula no frontend pode manipular no backend, daí vem a figura desenvolvedor fullstack.
+Outra principal vantagem de tal é a enorme comunidade que há envolvida, existindo as mais variadas soluções utilizando js, e o cerne de tudo isso no fundo é o JS.
