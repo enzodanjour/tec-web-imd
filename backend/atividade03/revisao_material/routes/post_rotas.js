@@ -2,32 +2,32 @@ const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
 
-const post = {}
+const posts = {}
 
 router.get('/:id',(req,resp)=>{
-    resp.json({post: post[req.params.id]})
+    resp.json({posts: posts[req.params.id]})
 })
 
 router.delete('/',(req,resp)=>{
     const id = req.query.id
-    if (id && post[id]){
-        delete post[id]
-        resp.json({msg: "usuario deletado com sucesso!"})
+    if (id && posts[id]){
+        delete posts[id]
+        resp.json({msg: "post deletado com sucesso!"})
     }else{
-        resp.status(400).json({msg:"usuario não foi encontrado"})
+        resp.status(400).json({msg:"post não foi encontrado"})
     }
 })
 
 router.put('/',(req,resp)=>{
     const id = req.query.id
-    if (id && post[id]){
-        const post = req.body
-        post.id = id
-        post[id] = req.body
-        resp.json({msg:"usuario atualizado"})
+    if (id && posts[id]){
+        const posts = req.body
+        posts.id = id
+        posts[id] = req.body
+        resp.json({msg:"post atualizado"})
     }else{
         resp.status(400).json({
-            msg:"usuario não encontrado"
+            msg:"post não encontrado"
         })
     }
 })
@@ -36,15 +36,15 @@ router.post('/',(req,resp) =>{
     const post = req.body
     const idpost = uuidv4()//identificador unico de post
     post.id = idpost
-    post[idpost] = post
+    posts[idpost] = post
     resp.json({
-        msg:"usuario adicionado com sucesso!"
+        msg:"post adicionado com sucesso!"
     })
 })
 
 router.get('/',(req,resp)=>{
     resp.json({
-        post:Object.values(post)
+        posts:Object.values(posts)
     })
 })
 // exporta as rotas para

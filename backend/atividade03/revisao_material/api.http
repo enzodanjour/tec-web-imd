@@ -10,7 +10,8 @@ POST http://localhost:8080/usuarios
 Content-Type: application/json
 
 {
-    "nome":"laura"
+    "email":"laura-as@gmail.com",
+    "senha": "beatriz",
 }
 
 ###

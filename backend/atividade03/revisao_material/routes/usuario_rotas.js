@@ -1,6 +1,12 @@
 const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
+const usuarioSchema = require('../schema/usuario.schema')
+const Ajv = require('ajv')
+const ajv = new Ajv()
+
+const addFormats = require("ajv-formats")
+addFormats(ajv)
 
 const usuarios = {}
 
@@ -21,8 +27,8 @@ router.delete('/',(req,resp)=>{
 router.put('/',(req,resp)=>{
     const id = req.query.id
     if (id && usuarios[id]){
-        const aluno = req.body
-        aluno.id = id
+        const usuario = req.body
+        usuario.id = id
         usuarios[id] = req.body
         resp.json({msg:"Usuário atualizado"})
     }else{
@@ -32,14 +38,21 @@ router.put('/',(req,resp)=>{
     }
 })
 
-router.post('/',(req,resp) =>{
-    const aluno = req.body
-    const idAluno = uuidv4()//identificador unico de aluno
-    aluno.id = idAluno
-    usuarios[idAluno] = aluno
-    resp.json({
-        msg:"Usuário adicionado com sucesso!"
-    })
+router.post('/', (req, res) => {
+    const usuario = req.body
+
+        const validate = ajv.compile(usuarioSchema)
+        const valid = validate(usuario)
+
+        if (valid){
+          const idUsuario = uuidv4()
+      usuario.id = idUsuario
+      usuarios[idUsuario] = usuario
+      res.json({msg: "Usuário adicionado com sucesso!"})
+        }else{
+           res.status(400).json({msg: "Dados inválidos", errors: validate.errors})
+        }
+
 })
 
 router.get('/',(req,resp)=>{

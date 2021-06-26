@@ -4,6 +4,8 @@
   "main": "index.js",
   "dependencies": {
     "abbrev": "^1.1.1",
+    "ajv": "^8.6.0",
+    "ajv-formats": "^2.1.0",
     "ansi-align": "^3.0.0",
     "ansi-regex": "^4.1.0",
     "ansi-styles": "^4.3.0",
