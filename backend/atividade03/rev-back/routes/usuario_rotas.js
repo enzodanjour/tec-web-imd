@@ -1,7 +1,7 @@
 const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
-const usuarioSchema = require('../schema/usuario_schema')
+const usuarioSchema = require('../schemas/usuario_schema')
 const Ajv = require('ajv')
 const ajv = new Ajv()
 
@@ -20,7 +20,7 @@ router.delete('/',(req,resp)=>{
         delete usuarios[id]
         resp.json({msg: "Usuário deletado com sucesso!"})
     }else{
-        resp.status(400).json({msg:"Usuário não encontrado"})
+        // resp.status(400).json({msg:"Usuário não encontrado"})
     }
 })
 
@@ -45,10 +45,11 @@ router.post('/', (req, res) => {
         const valid = validate(usuario)
 
         if (valid){
-          const idUsuario = uuidv4()
-      usuario.id = idUsuario
-      usuarios[idUsuario] = usuario
-      res.json({msg: "Usuário adicionado com sucesso!"})
+            const idUsuario = uuidv4()
+            usuario.id = idUsuario
+            usuarios[idUsuario] = usuario
+
+            res.json({msg: "Usuário adicionado com sucesso!"})
         }else{
            res.status(400).json({msg: "Dados inválidos", errors: validate.errors})
         }
