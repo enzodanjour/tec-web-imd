@@ -1,0 +1,32 @@
+GET http://localhost:8080/usuarios
+
+###
+
+GET http://localhost:8080/usuarios/667290f6-2bf3-400d-98de-0d30858c8716
+
+###
+
+POST http://localhost:8080/usuarios
+Content-Type: application/json
+
+{
+    "nome":"laura"
+}
+
+###
+
+PUT http://localhost:8080/usuarios?id=2cd2084b-b314-48e9-81d1-2b533b1720fb
+Content-Type: application/json
+
+{
+    "Nome":"Laura Beatriz"
+}
+
+###
+
+DELETE http://localhost:8080/usuarios?id=dd87608f-a068-4963-af64-4de8b6356173
+Content-Type: application/json
+###
+
+
+
