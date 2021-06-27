@@ -6,6 +6,6 @@ POST http://localhost:8080/posts
 Content-Type: application/json
 
 {
-    "titulo": "Meu titulo",
-    "texto": "Meu texto"
+    "titulo": "Avoltados",
+    "texto": "Meuuuu"
 }

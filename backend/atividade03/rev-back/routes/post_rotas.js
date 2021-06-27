@@ -1,8 +1,11 @@
 const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
-
+const postMid = require('../middleware/validar_post_middleware')
 const posts = {}
+
+router.post('/', postMid)
+router.put('/', postMid)
 
 router.get('/:id',(req,resp)=>{
     resp.json({posts: posts[req.params.id]})

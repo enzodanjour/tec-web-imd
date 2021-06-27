@@ -1,9 +1,9 @@
 module.exports = {
     type: "object",
     properties:{
-        email: {type: "string", format: "email"},
+        titulo: {type: "string", maxLenght: 100, minLenght:5},
         senha: {type: "string"}
     },
-    required: ["email", "senha"],
+    required: ["titulo", "texto"],
     additionalProperties: false
 }
