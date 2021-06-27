@@ -7,20 +7,21 @@ GET http://localhost:8080/usuarios/667290f6-2bf3-400d-98de-0d30858c8716
 ###
 
 POST http://localhost:8080/usuarios
-content-type: application/json
+Content-type: application/json
 
 {
-    "email":"laura-as@gmail.com",
-    "senha": "beatriz",
+    "email":"laura@gmail.com",
+    "senha":"elizabete"
 }
 
 ###
 
-PUT http://localhost:8080/usuarios?id=2cd2084b-b314-48e9-81d1-2b533b1720fb
+PUT http://localhost:8080/usuarios?id=fc65abfd-754f-4fb0-ba08-967d463e055a
 Content-Type: application/json
 
-{
-    "Nome":"Laura Beatriz"
+{   
+    "email":"enzo@gmail.com",
+    "senha":"ass"
 }
 
 ###
