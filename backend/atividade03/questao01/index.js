@@ -1,14 +1,14 @@
 const express = require('express')
-// const product_routes = require('./routes/products_routes')
+const productRoutes = require('./routes/products_routes')
 
 const app = express()
-app.use(express.json)
+app.use(express.json())
 
-// app.use('/produtos',product_routes)
+app.use('/produtos',productRoutes)
 
 app.get('/',(req,resp)=>{
     resp.json({
-        msg: 'Hello world'
+        msg: "Hello world from express"
     })
 })
 

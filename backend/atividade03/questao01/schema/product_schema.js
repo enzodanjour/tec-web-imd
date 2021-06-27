@@ -5,6 +5,6 @@ module.exports = {
         descrição: {type: "string", maxLength: 100, minLength:5},
         preço: {type: "number"}
     },
-    required: ["nome", "descrição","preço"],
+    required: ["nome", "descrição"],
     additionalProperties: false
 }
