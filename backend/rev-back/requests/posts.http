@@ -2,10 +2,28 @@ GET http://localhost:8080/posts
 
 ###
 
+GET http://localhost:8080/posts/2
+
+###
+
 POST http://localhost:8080/posts
 Content-Type: application/json
 
 {
-    "titulo": "Avoltados",
-    "texto": "Meuuuu"
+    "titulo": " A volta dos que não foram",
+    "texto": "livro ótimo e sensacional"
 }
+
+### 
+PUT  http://localhost:8080/posts?id=2
+Content-Type: application/json
+
+{
+    "titulo": " A volta dos que voltaram já",
+    "texto": "livro melhor ainda do que a primeira versão"
+}
+
+###
+DELETE http://localhost:8080/posts?id=2
+Content-Type: application/json
+
