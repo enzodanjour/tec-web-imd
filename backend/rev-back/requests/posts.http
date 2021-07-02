@@ -2,7 +2,7 @@ GET http://localhost:8080/posts
 
 ###
 
-GET http://localhost:8080/posts/2
+GET http://localhost:8080/posts/3
 
 ###
 
@@ -11,7 +11,8 @@ Content-Type: application/json
 
 {
     "titulo": " A volta dos que não foram",
-    "texto": "livro ótimo e sensacional"
+    "texto": "livro ótimo e sensacional",
+    "userId": 2
 }
 
 ### 
