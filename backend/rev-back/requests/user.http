@@ -2,7 +2,7 @@ GET http://localhost:8080/usuarios
 
 ###
 
-GET http://localhost:8080/usuarios/667290f6-2bf3-400d-98de-0d30858c8716
+GET http://localhost:8080/usuarios/2
 
 ###
 
@@ -10,8 +10,8 @@ POST http://localhost:8080/usuarios
 Content-type: application/json
 
 {
-    "email":"laura@gmail.com",
-    "senha":"elizabete"
+    "email":"enzo@gmail.com",
+    "senha":"laura"
 }
 
 ###
