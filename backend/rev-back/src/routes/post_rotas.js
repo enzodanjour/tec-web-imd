@@ -2,7 +2,7 @@ const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
 const postMid = require('../middleware/validar_post_middleware')
-const { Post } = require('../models')
+const { Post } = require('../db/models')
 
 const posts = {}
 

@@ -2,7 +2,7 @@ const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
 const usuarioMid = require('../middleware/validar_usuario_middleware')
-const { Usuario } = require("../models")
+const { Usuario } = require("../db/models")
 const usuarios = {}
 
 router.post('/', usuarioMid)
