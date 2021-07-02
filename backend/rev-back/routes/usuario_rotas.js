@@ -42,7 +42,7 @@ router.put('/', async (req,resp)=>{
     }
 })
 
-router.delete('/',(req,resp)=>{
+router.delete('/', async (req,resp)=>{
     const id = req.query.id
     const usuario = await Usuario.findByPk(id)
     if (usuario){
