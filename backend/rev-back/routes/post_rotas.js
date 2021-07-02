@@ -2,32 +2,54 @@ const express = require('express')
 const { v4: uuidv4} = require('uuid');
 const router = express.Router()
 const postMid = require('../middleware/validar_post_middleware')
+const { Post } = require('../models')
+
 const posts = {}
 
 router.post('/', postMid)
 router.put('/', postMid)
 
-router.get('/:id',(req,resp)=>{
-    resp.json({posts: posts[req.params.id]})
+//Operações assíncronas
+router.get('/', async (req,resp)=>{
+    const posts = await Post.findAll()
+    resp.json({
+        posts:posts
+    })
 })
 
-router.delete('/',(req,resp)=>{
+router.get('/:id', async (req,resp)=>{
+    const post = await Post.findByPk(req.params.id)
+    resp.json({posts: post})
+})
+
+router.post('/', async (req,resp) =>{
+    const post = await Post.create(req.body)
+    resp.json({
+        msg:"post adicionado com sucesso!"
+    })
+})
+
+router.delete('/', async (req,resp)=>{
     const id = req.query.id
-    if (id && posts[id]){
-        delete posts[id]
+    const post = await Post.findByPk(id)
+    if(post){
+        //deletar
+        await post.destroy()
         resp.json({msg: "post deletado com sucesso!"})
     }else{
         resp.status(400).json({msg:"post não foi encontrado"})
     }
 })
 
-router.put('/',(req,resp)=>{
+router.put('/', async (req,resp)=>{
     const id = req.query.id
-    if (id && posts[id]){
-        const posts = req.body
-        posts.id = id
-        posts[id] = req.body
-        resp.json({msg:"post atualizado"})
+    const post = await Post.findByPk(id)
+
+    if (post){
+        post.titulo = req.body.titulo
+        post.texto = req.body.texto
+        await post.save()
+        resp.json({msg: "post atualizado com sucesso!"})
     }else{
         resp.status(400).json({
             msg:"post não encontrado"
@@ -35,20 +57,8 @@ router.put('/',(req,resp)=>{
     }
 })
 
-router.post('/',(req,resp) =>{
-    const post = req.body
-    const idpost = uuidv4()//identificador unico de post
-    post.id = idpost
-    posts[idpost] = post
-    resp.json({
-        msg:"post adicionado com sucesso!"
-    })
-})
 
-router.get('/',(req,resp)=>{
-    resp.json({
-        posts:Object.values(posts)
-    })
-})
-// exporta as rotas para
+
+
+// exporta as rotas para o main
 module.exports = router
