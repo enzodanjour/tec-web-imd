@@ -2,21 +2,24 @@ const express = require('express')
 const { v4: uuidv4} = require('uuid')
 const router = express.Router()
 const productMid = require('../middleware/validate_products_middleware')
+const { product } = require("../models")
 
 products = {}
 
 router.post('/', productMid)
 router.put('/', productMid)
 
-router.get('/:id', (req,resp)=>{
-    resp.json({products: products[req.params.id]})
-})
-
 router.get('/', (req,resp)=>{
     resp.json({
         products:Object.values(products) 
     })
 })
+
+router.get('/:id', (req,resp)=>{
+    resp.json({products: products[req.params.id]})
+})
+
+
 
 router.post('/', (req,resp)=>{
     const product = req.body
