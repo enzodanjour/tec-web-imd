@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const productMid = require('../middleware/validate_products_middleware')
-const { Produto } = require('../models')
+const { Produto } = require('../db/models')
 
 
 router.post('/', productMid)
