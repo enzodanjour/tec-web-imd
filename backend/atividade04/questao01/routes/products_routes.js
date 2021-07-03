@@ -1,42 +1,42 @@
 const express = require('express')
-const { v4: uuidv4} = require('uuid')
 const router = express.Router()
 const productMid = require('../middleware/validate_products_middleware')
-const { product } = require("../models")
+const { Produto } = require('../models')
 
-products = {}
 
 router.post('/', productMid)
 router.put('/', productMid)
 
-router.get('/', (req,resp)=>{
+router.get('/', async (req,resp)=>{
+    const products = await Produto.findAll()
     resp.json({
-        products:Object.values(products) 
+        products:products 
     })
 })
 
-router.get('/:id', (req,resp)=>{
-    resp.json({products: products[req.params.id]})
+router.get('/:id',async  (req,resp)=>{
+    const product = await Produto.findByPk(req.params.id)
+    resp.json({products:product})
 })
 
 
 
-router.post('/', (req,resp)=>{
-    const product = req.body
-    const idProduct = uuidv4()
-    product.id = idProduct
-    products[idProduct] = product
+router.post('/', async (req,resp)=>{
+    const product = await Produto.create(req.body)
     resp.json({
-        msg:"Produto adicionado com sucesso!"
+        msg:"Produto"+ product.nome +"adicionado com sucesso!"
     })
 })
 
-router.put('/', (req,resp)=>{
+router.put('/', async (req,resp)=>{
     const id = req.query.id
-    if(id && products[id]){
-        const product = req.body
-        product.id = id
-        products[id] = req.body
+    const product = await Produto.findByPk(id)
+    if(product){
+        product.nome = req.body.nome
+        product.descrição = req.body.descrição
+        product.valor = req.body.descrição
+        // product.tags = req.body.tags
+        await product.save()
         resp.json({msg:"Produto atualizado"})
     }else{
         resp.status(400).json({
@@ -45,10 +45,11 @@ router.put('/', (req,resp)=>{
     }
 })
 
-router.delete('/', (req,resp)=>{
+router.delete('/', async (req,resp)=>{
     const id = req.query.id
-    if(id && products[id]){
-        delete products[id]
+    const product = await Produto.findByPk(id)
+    if(product){
+        await product.destroy()
         resp.json({msg: "Produto deletado"})
     }else{
         resp.status(400).json({
