@@ -8,12 +8,13 @@ Content-Type: application/json
 {
     "nome":"biscoito",
     "descrição":"cream cracker",
-    "preço": 10
+    "preço": 10,
+    "tags":[]
 }
 
 ###
 
-GET  http://localhost:8080/produtos?id=
+GET  http://localhost:8080/produtos?id=1
 
 ###
 
