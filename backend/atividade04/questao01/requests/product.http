@@ -1,0 +1,32 @@
+GET http://localhost:8080/produtos
+
+###
+
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+    "nome":"biscoito",
+    "descrição":"cream cracker",
+    "preço": 10
+}
+
+###
+
+GET  http://localhost:8080/produtos?id=
+
+###
+
+PUT http://localhost:8080/produtos?id=61a67eb0-3144-45b2-bb8d-290f3e010075
+Content-Type: application/json
+
+{
+    "nome":"biscoitão",
+    "descrição":"cream crackerzão",
+    "preço": 20
+}
+
+###
+
+DELETE http://localhost:8080/produtos?id=61a67eb0-3144-45b2-bb8d-290f3e010075
+Content-Type: application/json
