@@ -17,7 +17,7 @@ module.exports = {
         },
         onDelete: 'SET NULL'
       },
-      produtosId: {
+      tagsId: {
         type:Sequelize.INTEGER,
         references:{
           model: 'Tags',
