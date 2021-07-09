@@ -1,4 +1,5 @@
 'use strict';
+const { DataType } = require('ajv/dist/compile/validate/dataType');
 const {
   Model
 } = require('sequelize');
@@ -17,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     titulo: DataTypes.STRING,
     texto: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    foto: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Post',
