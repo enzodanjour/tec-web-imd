@@ -5,7 +5,7 @@ const { sequelize } = require("../models");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.addColumn('Posts', 'foto',{
-      type:sequelize.STRING
+      type : Sequelize.STRING
     })
   },
 
