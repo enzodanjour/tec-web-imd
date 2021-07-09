@@ -3,6 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router()
 const postMid = require('../middleware/validar_post_middleware')
 const { Post, Usuario } = require('../db/models')
+var  multer   =  require ( 'multer' ) 
+var  upload  =  multer ( {dest : 'uploads/'})
 
 router.post('/', postMid)
 router.put('/', postMid)
@@ -26,6 +28,11 @@ router.post('/', async (req, resp) => {
     resp.json({
         msg: "post adicionado com sucesso!"
     })
+})
+
+router.post('/upload',upload.single('foto'), async (req,resp) =>{
+    console.log(req.file)
+    resp.json({msg:"arquivo enviado com sucesso"})
 })
 
 router.delete('/', async (req, resp) => {

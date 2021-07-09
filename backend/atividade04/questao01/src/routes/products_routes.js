@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const productMid = require('../middleware/validate_products_middleware')
-const { Produto } = require('../db/models')
+const { Produto, Tags, sequelize } = require('../db/models')
+
+
 
 
 router.post('/', productMid)
@@ -22,7 +24,10 @@ router.get('/:id',async  (req,resp)=>{
 
 
 router.post('/', async (req,resp)=>{
-    const product = await Produto.create(req.body)
+    const product = await Produto.create({nome:req.body.nome,descrição:req.body.descrição,preço:req.body.preço})
+    const tag = await Tags.bulkCreate(req.body.tags)
+    const tagProduto = await sequelize.
+
     resp.json({
         msg:"Produto"+ product.nome +"adicionado com sucesso!"
     })
