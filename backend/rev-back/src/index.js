@@ -21,5 +21,6 @@ app.use('/static', express.static('public'))
 
 
 app.listen(8080,()=>{
+    console.log(`Iniciando no ambiente ${process.env.NODE_ENV}`)
     console.log('Servidor pronto na porta 8080')
 })
