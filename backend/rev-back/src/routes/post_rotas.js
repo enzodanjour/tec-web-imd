@@ -3,9 +3,29 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router()
 const postMid = require('../middleware/validar_post_middleware')
 const { Post, Usuario } = require('../db/models')
+const path = require('path')
 var  multer   =  require ( 'multer' ) 
-var  upload  =  multer ( {dest : 'uploads/'})
 
+var storage = multer.diskStorage({
+    destination: function (req,file,cb){
+        cb(null, 'public/uploads')
+    },
+    filename: function (req,file,cb){
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))  //padroniza o arquivo
+    }
+})
+
+const fileFilter = (req,file,cb)=>{
+    const extensoes = /jpeg|jpg|png/i //permite quaisquer tipos de arquivo
+    if(extensoes.test(path.extname(file.originalname))){
+        cb(null, true)
+    }else{
+        return cb('Arquivo não suportado. Apenas jpeg ou jpg são suportados')
+    }
+}
+var  upload  =  multer ( {storage : storage, fileFilter:fileFilter})
+
+router.post('/',upload.single('foto'))
 router.post('/', postMid)
 router.put('/', postMid)
 
@@ -24,15 +44,29 @@ router.get('/:id', async (req, resp) => {
 })
 
 router.post('/', async (req, resp) => {
-    const post = await Post.create(req.body)
+    const data = req.body
+    if(req.file){
+        data.foto =`static/uploads/${req.file.filename}`
+    }
+    const post = await Post.create(data)
     resp.json({
         msg: "post adicionado com sucesso!"
     })
 })
 
-router.post('/upload',upload.single('foto'), async (req,resp) =>{
-    console.log(req.file)
-    resp.json({msg:"arquivo enviado com sucesso"})
+router.post('/:id/upload',upload.single('foto'), async (req,resp) =>{
+    const id = req.params.id
+    const post = await Post.findByPk(id)
+
+    if (post) {
+        post.foto =`static/uploads/${req.file.filename}`
+        await post.save()
+        resp.json({ msg: "Upload realizado com sucesso!" })
+    } else {
+        resp.status(400).json({
+            msg: "post não encontrado"
+        })
+    }
 })
 
 router.delete('/', async (req, resp) => {
@@ -71,6 +105,8 @@ function prepararResultado(post){
     if(result.userId) delete result.userId
     if(result.Usuario){
         if(result.Usuario.senha) delete result.Usuario.senha
+        if(result.Usuario.createdAt) delete result.Usuario.createdAt
+        if(result.Usuario.updatedAt) delete result.Usuario.updatedAt
     }
 
     return result
