@@ -15,6 +15,8 @@ app.get('/',(req,resp)=>{
     })
 })
 
+// exposição para a camada de imagens de forma distribuida
+app.use('/static', express.static('public'))
 
 
 
