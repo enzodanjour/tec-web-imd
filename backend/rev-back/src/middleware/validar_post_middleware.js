@@ -4,6 +4,10 @@ const postSchema = require('../schema/post_schema')
 
 function validarPost(req,resp,next){
     const post = req.body
+    //verifica a chegada para transformar para number
+    if(post.userId){
+        post.userId = Number(post.userId)
+    }
     const validate = ajv.compile(postSchema)
     const valid = validate(post)
     if (valid){
