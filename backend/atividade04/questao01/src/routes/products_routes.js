@@ -1,65 +1,81 @@
 const express = require('express')
 const router = express.Router()
 const productMid = require('../middleware/validate_products_middleware')
-const { Produto, Tags, sequelize } = require('../db/models')
-
-
-
+const { Produto, Tag } = require('../db/models')
 
 router.post('/', productMid)
 router.put('/', productMid)
 
 router.get('/', async (req,resp)=>{
-    const products = await Produto.findAll()
+    const products = await Produto.findAll({
+        include: [
+            {
+              model: Tag,
+            },
+          ],
+          raw: false,
+          nest: true,
+    })
     resp.json({
         products:products 
     })
 })
 
 router.get('/:id',async  (req,resp)=>{
-    const product = await Produto.findByPk(req.params.id)
+    const product = await Produto.findByPk(req.params.id,{
+        include: [
+            {
+              model: Tag,
+            },
+          ],
+          raw: false,
+          nest: true,
+    })
     resp.json({products:product})
 })
 
 
 
 router.post('/', async (req,resp)=>{
-    const product = await Produto.create({nome:req.body.nome,descrição:req.body.descrição,preço:req.body.preço})
-    const tag = await Tags.bulkCreate(req.body.tags)
-    const tagProduto = await sequelize.
-
+    const { tags, ...produto } = req.body;
+  if (tags){
+    const savedProduct = await Produto.create(produto)
+    console.log(savedProduct)
+    tags.forEach( async (tag) => {
+      console.log(savedProduct.dataValues.id)
+      await Tag.create({nome: tag, produtoId: savedProduct.dataValues.id})
+    })
+  }else{
+    await Produto.create(req.body)
+  }
     resp.json({
         msg:"Produto"+ product.nome +"adicionado com sucesso!"
     })
 })
 
-router.put('/', async (req,resp)=>{
-    const id = req.query.id
-    const product = await Produto.findByPk(id)
-    if(product){
-        product.nome = req.body.nome
-        product.descrição = req.body.descrição
-        product.valor = req.body.descrição
-        // product.tags = req.body.tags
-        await product.save()
-        resp.json({msg:"Produto atualizado"})
-    }else{
-        resp.status(400).json({
-            msg:"Produto não encontrado"
-        })
+router.put('/:id', async (req, res) => {
+    const id = req.params.id
+    const produto = await Produto.findByPk(id)
+  
+    if (produto) {
+      produto.nome = req.body.nome
+      produto.descricao = req.body.descricao
+      produto.preco = req.body.preco
+      await produto.save()
+      res.json({ msg: "Produto atualizado com sucesso!" })
+    } else {
+      res.status(400).json({ msg: "Produto não encontrado!" })
     }
 })
 
-router.delete('/', async (req,resp)=>{
-    const id = req.query.id
-    const product = await Produto.findByPk(id)
-    if(product){
-        await product.destroy()
-        resp.json({msg: "Produto deletado"})
+router.delete('/:id', async (req,resp)=>{
+    const id = req.params.id
+    const produto = await Produto.findByPk(id)
+    if (produto){
+        await produto.destroy()
+        res.json({msg: "Produto deletado com sucesso!"})
     }else{
-        resp.status(400).json({
-            msg: "Produto não encontrado"
-        })
+        res.status(400).json({msg: "Produto não encontrado!"})
     }
 })
 

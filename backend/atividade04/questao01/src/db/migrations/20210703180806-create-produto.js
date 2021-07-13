@@ -14,7 +14,7 @@ module.exports = {
       descricao: {
         type: Sequelize.STRING
       },
-      preço: {
+      preco: {
         type: Sequelize.INTEGER
       },
       createdAt: {
