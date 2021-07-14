@@ -2,7 +2,30 @@ const express = require('express')
 const router = express.Router()
 const productMid = require('../middleware/validate_products_middleware')
 const { Produto, Tag } = require('../db/models')
+const path = require('path')
+var multer = require('multer')
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'public/uploads')
+  },
+  filename: function (req, file, cb) {
+       cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname)) 
+  }
+})
+
+const fileFilter= (req,resp,cb) =>{
+  const extensoes = /jpeg|jpg|png/i
+  if(extensoes.test(path.extname(file.originalname))){
+    cb(null,true);
+  }else{
+    return cb('Arquivo não suportado, apenas jpg,png,jpeg')
+  }
+}
+
+var upload = multer({storage : storage, fileFilter:fileFilter})
+
+router.post('/',upload.single('foto'))
 router.post('/', productMid)
 router.put('/', productMid)
 
@@ -38,6 +61,9 @@ router.get('/:id',async  (req,resp)=>{
 
 router.post('/', async (req,resp)=>{
     const { tags, ...produto } = req.body;
+  if(req.file){
+    data.foto =`static/uploads/${req.file.filename}`
+  }
   if (tags){
     const savedProduct = await Produto.create(produto)
     console.log(savedProduct)
