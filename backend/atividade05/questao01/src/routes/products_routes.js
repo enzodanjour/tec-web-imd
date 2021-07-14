@@ -14,7 +14,7 @@ var storage = multer.diskStorage({
   }
 })
 
-const fileFilter= (req,resp,cb) =>{
+const fileFilter= (req,file,cb) =>{
   const extensoes = /jpeg|jpg|png/i
   if(extensoes.test(path.extname(file.originalname))){
     cb(null,true);
