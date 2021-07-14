@@ -15,3 +15,6 @@ app.get('/',(req,resp)=>{
 app.listen(8080,()=>{
     console.log('Servidor pronto')
 })
+
+// exposição para a camada de imagens de forma distribuida
+app.use('/static',express.static('public'))
